@@ -71,28 +71,36 @@ def dict2NXobj(indict, only_nx=True):
     return outdict
 
 
+def _get_component_eniius_data(comp):
+    """Checks for the post-McStas 3.3 METADATA attribute, and looks there for JSON eniius_data.
+    Always checks EXTEND blocks as well, for `char eniius_data[]` style entries
+    """
+    from regex import compile
+
+    ed = 'eniius_data'
+    # METADATA is a dict[str, (str, str)] where the keys are 'names' and the tuple is (type, value)
+    if hasattr(comp, 'METADATA') and ed in comp.METADATA and comp.METADATA[ed][0].lower() == 'json':
+        return comp.METADATA[ed][1]
+    # match any '{name}eniius_data{suffix}={encoded data};
+    ed_regex = compile(rf'.*{ed}[^=]*=([^;]*);')
+    ed_match = ed_regex.match(comp.EXTEND)
+    if not ed_match:
+        return None
+    to_translate = ed_match.group(1)
+    # extract the matched group, remove all \n, \, and "; replace all ' by "
+    json_str = to_translate.translate(str.maketrans("'", '"', '\n"\\'))
+    return json_str
+
+
 def _decode_component_eniius_data(comp, only_nx=True) -> dict:
     """Extract the 'eniius_data' block from the component EXTEND statement
 
     If found, decode the information and return a dictionary of contained NXobjects
     """
-    from regex import compile
     from json import JSONDecodeError
-    # char eniius_data[]\s*=\s*"([^"]*)";
-    ed_regex = compile(r'.*eniius_data[^=]*=([^;]*);')
-    ed_match = ed_regex.match(comp.EXTEND)
-    if not ed_match:
+    json_str = _get_component_eniius_data(comp)
+    if json_str is None:
         return {}
-    to_translate = ed_match.group(1)
-
-    # if 'eniius_data' not in comp.EXTEND or comp.EXTEND.count('"') != 2:
-    #     return {}
-    # between_double_quotes_regex = compile(r'[^"]*"([^"]*)"')
-    # between_double_quotes = between_double_quotes_regex.match(comp.EXTEND)
-    # to_translate = between_double_quotes.group(1)
-
-    # extract the matched group, remove all \n, \, and "; replace all ' by "
-    json_str = to_translate.translate(str.maketrans("'", '"', '\n"\\'))
     try:
         return dict2NXobj(_sanitize(json.loads(json_str)), only_nx=only_nx)
     except SyntaxError:
@@ -137,6 +145,20 @@ class NXoff():
                  [6, 7, 3, 2], [7, 4, 0, 3], [1, 0, 4, 5]]
         return cls(vertices, faces)
 
+    @classmethod
+    def sphere(cls, radius):
+        phi = (1 + np.sqrt(5)) / 2
+        r = radius / np.sqrt(1 + phi)
+        p = r * phi
+        vertices = [[-r, p, 0], [r, p, 0], [-r, -p, 0], [r, -p, 0],
+                    [0, -r, p], [0, r, p], [0, -r, -p], [0, r, -p],
+                    [p, 0, -r], [p, 0, r], [-p, 0, -r], [-p, 0, r]]
+        faces = [[0, 11, 5], [0, 5, 1], [0, 1, 7], [0, 7, 10], [0, 10, 11],
+                 [1, 5, 9], [5, 11, 4], [11, 10, 2], [10, 7, 6], [7, 1, 8],
+                 [3, 9, 4], [3, 4, 2], [3, 2, 6], [3, 6, 8], [3, 8, 9],
+                 [4, 9, 5], [2, 4, 11], [6, 2, 10], [8, 6, 7], [9, 8, 1]]
+        return cls(vertices, faces)
+
     def to_nexus(self):
         # Returns a NXoff_geometry field
         winding_order = [ww for fa in self.faces for ww in fa]
@@ -174,9 +196,10 @@ NX2COMP_MAP = dict(
     NXdetector = ['Monitor_nD',
         {},
     ],
-    NXdisk_chopper = ['DiskChopper',
-        {'slits':'nslit', 'rotation_speed':'nu', 'radius':'radius', 'slit_angle':'theta_0'},
-    ],
+    NXdisk_chopper=['DiskChopper',{
+        'slits': 'nslit', 'rotation_speed': 'nu', 'radius': 'radius', 'slit_angle': 'theta_0',
+        'slit_height': 'yheight', 'phase': 'phase'
+    },],
     NXfermi_chopper = ['FermiChopper',
         {'rotation_speed':'nu', 'radius':'radius', 'slit':'w', 'r_slit':'curvature',
          'number':'nslit', 'width':'xwidth', 'height':'yheight'},
@@ -347,6 +370,74 @@ class McStasComp2NX():
         params = {'divergence_x':kw['divergence'], 'divergence_y':kw['divergenceV'], 'geometry':geometry.to_nexus()}
         return NXcollimator(**params)
 
+    @classmethod
+    def DiskChopper(cls, comp, **kw):
+        params = {'slits': comp.nslit,
+                  'rotation_speed': NXfield(comp.nu, units='Hz'),
+                  'radius': NXfield(comp.radius, units='m'),
+                  'slit_angle': NXfield(comp.theta_0, units='degree'),
+                  'phase': NXfield(comp.phase, units='degrees'),
+                  'slit_height': NXfield(comp.yheight if comp.yheight else comp.radius, units='m')}
+        # McStas defines that the disk has `nslit` identical slits symmetrically distributed around the edge
+        # the first slit is centered on the beam when phase is 0
+        try:
+            nslit = int(comp.nslit)
+        except ValueError:
+            nslit = 1  # comp.nslit isn't an integer -- could we pull this from the McStasScript instrument?
+        try:
+            delta = float(comp.theta_0) / 2
+        except ValueError:
+            delta = 10.  # theta_0 isn't a float
+
+        slit_edges = [y * 360.0 / nslit + x for y in range(nslit) for x in (-delta, delta)]
+        params['slit_edges'] = NXfield(slit_edges, units='degree')
+        return NXdisk_chopper(**params)
+
+    @classmethod
+    def Elliptic_guide_gravity(cls, comp, **kwargs):
+        from numpy import arange
+        if comp.dimensionsAt != '"mid"':
+            print(f'Only midpoint geometry supported -- what do I do with {comp.dimensionsAt}?')
+
+        def ellipse_width(minor, distance, at):
+            from numpy import sqrt
+            # compared to either focal point, the ellipse passes through (distance/2, +/- minor)
+            # which determines the semi-major axis length
+            major = sqrt((distance / 2) ** 2 + minor ** 2)
+            value = at / major
+            if abs(value) > 1:
+                return 0
+            return minor * sqrt(1 - value ** 2)
+
+        try:
+            xwidth, xin, xout = float(comp.xwidth), float(comp.linxw), float(comp.loutxw)
+            yheight, yin, yout = float(comp.yheight), float(comp.linyh), float(comp.loutyh)
+            length = float(comp.l)
+        except ValueError:
+            # what do we do when the parameters are not simple numbers?
+            return NXguide()
+
+        n = 10
+        rings = arange(n + 1) / n
+        vertices = []
+        for p in rings:
+            w = ellipse_width(xwidth / 2, xin + length + xout, xin/2 + (p-0.5) * length - xout/2)
+            h = ellipse_width(yheight / 2, yin + length + yout, yin/2 + (p-0.5) * length - yout/2)
+            z = p * length
+            vertices.extend([[-w, -h, z], [-w, h, z], [w, h, z], [w, -h, z]])
+
+        # 4n + 4 vertices in total:
+        faces = []
+        for i in range(n):
+            j0, j1, j2, j3, j4, j5, j6, j7 = [4 * i + k for k in range(8)]
+            # # outside:
+            # faces.extend([[j1, j0, j4, j5], [j2, j1, j5, j6], [j3, j2, j6, j7], [j0, j3, j7, j4]])
+            # inside:
+            faces.extend([[j0, j1, j5, j4], [j1, j2, j6, j5], [j2, j3, j7, j6], [j3, j0, j4, j7]])
+
+        geometry = NXoff(vertices, faces)
+        return NXguide(geometry=geometry.to_nexus())
+
 
 class AffineRotate():
     def __init__(self, transformation_matrix, depends_on='.'):
@@ -365,6 +456,10 @@ class AffineRotate():
 
     def __repr__(self):
         return f"AffineRotate<{self}>"
+
+    def __mul__(self, other):
+        mat = np.einsum('ij,jk', self.transform, other.transform)
+        return AffineRotate(mat)
 
     @classmethod
     def from_euler_translation(cls, euler_angles, translation_vector, depends_on='.'):
@@ -408,7 +503,10 @@ class AffineRotate():
         axis = real(axis)
         rotmat = self.transform[:3, :3]
         # Sign of rotation angle is not defined by the expression below (from matrix trace)
-        angle = degrees(arccos((trace(rotmat) - 1.) / 2.))
+        cos_angle = (trace(rotmat) - 1.) / 2.
+        if abs(cos_angle) > 1:
+            print(f'Invalid {cos_angle = } for {rotmat = }')
+        angle = degrees(arccos(cos_angle))
         # Checks that the computed axis and angles agree with the original matrix
         r2 = self.rodrigues(axis, angle)
         if sum(abs(rotmat - r2)) > 1.e-5:
@@ -448,11 +546,14 @@ class AffineRotate():
     def reverse(self, depends_on=None):
         # Computes the reverse transformation
         transform = np.eye(4)
+        # exploit that rotation matrices have R-1 = R^T
         transform[:3, :3] = np.transpose(self.transform[:3, :3])
-        transform[:3, 3] = -self.transform[:3, 3]
+        # But the inverse translation is rotated relative to the affine translation
+        transform[:3, 3] = - np.einsum('ij,j', transform[:3, :3], self.transform[:3, 3])
         if depends_on is None:
             depends_on = self.depends_on
         return AffineRotate(transformation_matrix=transform, depends_on=depends_on)
+
 
     @property
     def is_translation(self):
@@ -462,24 +563,45 @@ class AffineRotate():
     def is_rotation(self):
         return not self.is_translation
 
-    def NXfield(self):
+    def NXfield(self, depends_on: str = None):
         # Returns an NXfield object for this component
         assert np.abs(np.imag(self.transform)).sum() < 1e-5, "Error computing transformation vector"
         self.transform = np.real(self.transform)
+        if depends_on is None:
+            depends_on = self.depends_on
         if self.is_translation:
             distance = np.linalg.norm(self.transform[:3, 3])
             vec = copy.deepcopy(self.transform[:3, 3])
             if distance > 1e-5:
                 vec /= distance
-            return NXfield(distance, vector=vec, depends_on=self.depends_on,
+            return NXfield(distance, vector=vec, depends_on=depends_on,
                            transformation_type='translation', units='m')
         else:
             # If transformation has a rotation, include translation as offset
             axis, angle = self.axisrot()
             assert np.abs(np.imag(axis)).sum() < 1e-5, "Error computing rotation from transform"
             axis = np.real(axis)
-            return NXfield(angle, vector=axis, offset=self.transform[:3, 3], depends_on=self.depends_on,
+            return NXfield(angle, vector=axis, offset=self.transform[:3, 3], depends_on=depends_on,
                            transformation_type='rotation', units='degree')
+
+    def separate_translate_rotate(self):
+        has_translation = np.dot(self.transform[:3, 3], self.transform[:3, 3]) > 0
+        if has_translation:
+            transmat = np.eye(4)
+            transmat[:3, 3] = self.transform[:3, 3]
+            translate = AffineRotate(transformation_matrix=transmat, depends_on=self.depends_on)
+        else:
+            translate = None
+
+        rotation = self.transform[:3, :3]
+        if np.trace(rotation) != 3.0:
+            rotmat = np.zeros((4, 4))
+            rotmat[:3, :3] = self.transform[:3, :3]
+            rotate = AffineRotate(transformation_matrix=rotmat, depends_on=f'{self.depends_on}_tr')
+        else:
+            rotate = None
+        return translate, rotate
+
 
 
 def reduce_affine_transforms(affinelist):
@@ -490,7 +612,11 @@ def reduce_affine_transforms(affinelist):
     tr1 = affinelist[0]
     for ii in range(1, len(affinelist)):
         tr2 = affinelist[ii]
-        mat = np.matmul(tr1.transform, tr2.transform)
+        mat = np.matmul(tr2.transform, tr1.transform)
+        if np.trace(mat[:3, :3]) > 3:
+            if not np.isclose(np.trace(mat[:3, :3]), 3.0):
+                print(f'Warning, replacing invalid transformation\n{mat}\nby its translation only')
+            mat[:3, :3] = np.eye(3)
         try:
             tr1 = AffineRotate(transformation_matrix=mat, depends_on=tr2.depends_on)
             transform_added = False
@@ -559,7 +685,7 @@ class NXMcStas():
             if relate_at != 'ABSOLUTE' and relate_at not in self.indices:
                 raise RuntimeError("Components can only be positioned relative to previously defined components")
 
-            self.transforms[comp.name] = AffineRotate.from_euler_translation(to_float(comp.ROTATED_data),
+            self.transforms[comp.name] = AffineRotate.from_euler_translation(-to_float(comp.ROTATED_data),
                                                                              to_float(comp.AT_data),
                                                                              depends_on=relate_at)
             self.depends_on[comp.name] = relate_at
@@ -584,8 +710,9 @@ class NXMcStas():
                 warnings.warn("More than one sample in instrument. Will use the first "
                               "sample position as the origin.", warnings.RuntimeWarning)
             self.origin = samp[0].name
-            deps =  [tr.depends_on for tr in self.affinelist[self.origin][::-1]][1:] + ['.']
+            deps = [tr.depends_on for tr in self.affinelist[self.origin][::-1]][1:] + ['.']
             rev_trans = [tr.reverse(depends_on=deps[ii]) for ii, tr in enumerate(self.affinelist[self.origin][::-1])]
+
         for name in [comp.name for comp in self.components]:
             if name == self.origin:
                 self.affinelist[name] = [AffineRotate.from_euler_translation([0, 0, 0], [0, 0, 0])]
@@ -601,8 +728,25 @@ class NXMcStas():
     def NXtransformations(self, name):
         # Returns an NXtransformations group for a component with a name
         transdict = {}
-        for idx, trans in enumerate(self.affinelist[name]):
-            transdict[f'{name}{idx}'] = trans.NXfield()
+        count = 0
+        lastname = '.'
+        for affine in self.affinelist[name]:
+            trans, rot = affine.separate_translate_rotate()
+            firstname = f'{name}_{count}'
+            if trans is None and rot is None:
+                transdict[firstname] = AffineRotate.from_euler_translation([0, 0, 0], [0, 0, 0]).NXfield(lastname)
+            elif rot is None:
+                transdict[firstname] = trans.NXfield(lastname)
+            elif trans is None:
+                transdict[firstname] = rot.NXfield(lastname)
+            else:
+                transdict[firstname] = trans.NXfield(lastname)
+                lastname = firstname
+                count += 1
+                firstname = f'{name}_{count}'
+                transdict[firstname] = rot.NXfield(lastname)
+            lastname = firstname
+            count += 1
         return NXtransformations(**transdict)
 
     def NXcomponent(self, name, order=0, only_nx=True):
