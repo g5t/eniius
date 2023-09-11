@@ -1,0 +1,2069 @@
+{
+    "children": [
+        {
+            "name": "entry",
+            "type": "group",
+            "children": [
+                {
+                    "name": "instrument",
+                    "type": "group",
+                    "children": [
+                        {
+                            "name": "mcstas",
+                            "type": "group",
+                            "children": [
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "version",
+                                        "values": 3,
+                                        "type": "int64"
+                                    }
+                                },
+                                {
+                                    "name": "parameters",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "Ei",
+                                                "values": 20.0,
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                },
+                                                {
+                                                    "name": "unit",
+                                                    "dtype": "string",
+                                                    "values": "dimensionless"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "freq",
+                                                "values": 600.0,
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                },
+                                                {
+                                                    "name": "unit",
+                                                    "dtype": "string",
+                                                    "values": "dimensionless"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "chopper",
+                                                "values": "\"S\"",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "string"
+                                                },
+                                                {
+                                                    "name": "unit",
+                                                    "dtype": "string",
+                                                    "values": "dimensionless"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXcollection"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "declare",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "c_h1",
+                                                "values": "None",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "c_h2",
+                                                "values": "None",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "roc",
+                                                "values": "None",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "chan_w",
+                                                "values": "None",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "phase_time",
+                                                "values": "None",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "slit_curv",
+                                                "values": "None",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "num_slits",
+                                                "values": "None",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "width",
+                                                "values": "None",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "length",
+                                                "values": "None",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "lam",
+                                                "values": "None",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "nslits",
+                                                "values": "None",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "int"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "E_min",
+                                                "values": "None",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "E_max",
+                                                "values": "None",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "pack_radius",
+                                                "values": "None",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "burst",
+                                                "values": "None",
+                                                "type": "string"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "type",
+                                                    "dtype": "string",
+                                                    "values": "double"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXcollection"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "initialize",
+                                        "values": "// Start of initialize for generated isis_maps\nswitch(chopper[0]) {\n  case 'a':\n  case 'A':\n    slit_curv=1./1.3;\n    num_slits=64;\n    length=0.098;\n    width=0.001087;\n    fprintf(stderr,\"A chopper selected\\n\");\n    break;\n  case 's':\n  case 'S':\n    slit_curv=1./1.3;\n    num_slits=24;\n    length=0.098;\n    width=0.002899;\n    fprintf(stderr,\"MAPS Sloppy selected selected\\n\");\n    break;\n  case 'g':\n  case 'G':\n    slit_curv=0;\nnum_slits=107;\nlength=0.022;\nwidth=0.65/1000.;\n    fprintf(stderr,\"Gadolinium selected selected\\n\");\n    break;\n  default:\n    fprintf(stderr,\"Chopper Type not recognised\\n\");\n    exit(1);\n}\nphase_time = 10.1 / (SE2V * sqrt(Ei)) + 10e-6;\nlam = sqrt(81.81/Ei);\npack_radius = 0.055;\nburst = width / (pack_radius * freq / 6.283185);\nE_min = 10.1 / (phase_time + burst) / SE2V; E_min *= E_min;\nE_max = 10.1 / (phase_time - burst) / SE2V; E_max *= E_max;",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "finally",
+                                        "values": "// Start of finally for generated isis_maps",
+                                        "type": "string"
+                                    }
+                                }
+                            ],
+                            "attributes": [
+                                {
+                                    "name": "NX_class",
+                                    "dtype": "string",
+                                    "values": "NXcollection"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Origin",
+                            "type": "group",
+                            "children": [
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "date",
+                                        "values": "2023-07-26T15:38:12.455182",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "mcstas",
+                                        "values": "{\"mcstas_component\": \"Arm\", \"mcstas_order\": 0}",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "name": "transformations",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "Origin0",
+                                                "values": 12.0,
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "vector",
+                                                    "dtype": "double",
+                                                    "values": [
+                                                        0.0,
+                                                        0.0,
+                                                        -1.0
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "depends_on",
+                                                    "dtype": "string",
+                                                    "values": "."
+                                                },
+                                                {
+                                                    "name": "transformation_type",
+                                                    "dtype": "string",
+                                                    "values": "translation"
+                                                },
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXtransformations"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "depends_on",
+                                        "values": "/entry/instrument/Origin/transformations/Origin0",
+                                        "type": "string"
+                                    }
+                                }
+                            ],
+                            "attributes": [
+                                {
+                                    "name": "NX_class",
+                                    "dtype": "string",
+                                    "values": "NXnote"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "moderator",
+                            "type": "group",
+                            "children": [
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "mcstas",
+                                        "values": "{\"Face\": \"\\\"TS1_S01_Maps.mcstas\\\"\", \"E0\": \"E_min\", \"E1\": \"E_max\", \"modPosition\": 0, \"xw\": 0.12, \"yh\": 0.12, \"focus_xw\": 0.094, \"focus_yh\": 0.094, \"dist\": 1.7, \"mcstas_component\": \"ViewModISIS\", \"mcstas_order\": 1, \"mcstas_extend\": \"char eniius_data[] =\\n\\\\\\\"{'function_pulse_shape': \\\\\\n{'type':'NXnote', 'value': { \\\\\\n'data': '\\\\\\ndef mcstas_time_profile(Face, Ei):<nl>\\\\\\n<tb>with open(Face, <qt>r<qt>) as f:<nl>\\\\\\n<tb><tb>dat = f.read().replace(<qt>(<qt>,<qt><qt>).replace(<qt>)<qt>,<qt><qt>).split(<qt><bs>n<qt>)<nl>\\\\\\n<tb>id0, en, intens = (dat.index(<qt> time <qt>), [], [])<nl>\\\\\\n<tb>n = dat.index(<qt> time <qt>, id0 + 1) - id0 - 6<nl>\\\\\\n<tb># time data originally in ns, energy in MeV<nl>\\\\\\n<tb>t = np.loadtxt(dat[(id0+1):(id0+n)], usecols=(0)) / 100<nl>\\\\\\n<tb>dt = np.diff(t)<nl>\\\\\\n<tb>while True:<nl>\\\\\\n<tb><tb>e0 = np.loadtxt(dat[id0-2].split()[2:5:2]) * 1.e9<nl>\\\\\\n<tb><tb>i0 = np.loadtxt(dat[(id0+1):(id0+n)], usecols=(1))<nl>\\\\\\n<tb><tb>en.append(np.mean(e0))<nl>\\\\\\n<tb><tb>intens.append((i0[:-1] / dt) / (e0[1] - e0[0]))<nl>\\\\\\n<tb><tb>try:<nl>\\\\\\n<tb><tb><tb>id0 = dat.index(<qt> time <qt>, id0 + 1)<nl>\\\\\\n<tb><tb>except ValueError:<nl>\\\\\\n<tb><tb><tb>break<nl>\\\\\\n<tb>en, intens, tlog = (np.log(en), np.array(intens), np.log(t))<nl>\\\\\\n<tb>kp = np.where(t < 2000)[0]<nl>\\\\\\n<tb>ie = np.where(en < np.log(Ei))[0][-1]<nl>\\\\\\n<tb>frac = (np.log(Ei) - en[ie]) / (en[ie+1] - en[ie])<nl>\\\\\\n<tb>return intens[ie,kp] + frac * (intens[ie+1,kp] - intens[ie,kp])<nl>',\\\\\\n'globals': 'np:numpy, open:open, ValueError:ValueError',\\\\\\n'type': 'text/x-python', \\\\\\n'description': 'Python script to compute moderator time profile from Ei'} \\\\\\n}}\\\\\\\";\\n\"}",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "name": "transformations",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "moderator0",
+                                                "values": 32.000000000000014,
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "vector",
+                                                    "dtype": "double",
+                                                    "values": [
+                                                        0.0,
+                                                        0.0,
+                                                        1.0
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "offset",
+                                                    "dtype": "double",
+                                                    "values": [
+                                                        0.0,
+                                                        0.0,
+                                                        -12.0
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "depends_on",
+                                                    "dtype": "string",
+                                                    "values": "."
+                                                },
+                                                {
+                                                    "name": "transformation_type",
+                                                    "dtype": "string",
+                                                    "values": "rotation"
+                                                },
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "degree"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXtransformations"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "function_pulse_shape",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "data",
+                                                "values": "def mcstas_time_profile(Face, Ei):\n    with open(Face, 'r') as f:\n        dat = f.read().replace('(','').replace(')','').split('\\n')\n    id0, en, intens = (dat.index(' time '), [], [])\n    n = dat.index(' time ', id0 + 1) - id0 - 6\n    # time data originally in ns, energy in MeV\n    t = np.loadtxt(dat[(id0+1):(id0+n)], usecols=(0)) / 100\n    dt = np.diff(t)\n    while True:\n        e0 = np.loadtxt(dat[id0-2].split()[2:5:2]) * 1.e9\n        i0 = np.loadtxt(dat[(id0+1):(id0+n)], usecols=(1))\n        en.append(np.mean(e0))\n        intens.append((i0[:-1] / dt) / (e0[1] - e0[0]))\n        try:\n            id0 = dat.index(' time ', id0 + 1)\n        except ValueError:\n            break\n    en, intens, tlog = (np.log(en), np.array(intens), np.log(t))\n    kp = np.where(t < 2000)[0]\n    ie = np.where(en < np.log(Ei))[0][-1]\n    frac = (np.log(Ei) - en[ie]) / (en[ie+1] - en[ie])\n    return intens[ie,kp] + frac * (intens[ie+1,kp] - intens[ie,kp])",
+                                                "type": "string"
+                                            }
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "globals",
+                                                "values": "np:numpy, open:open, ValueError:ValueError",
+                                                "type": "string"
+                                            }
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "type",
+                                                "values": "text/x-python",
+                                                "type": "string"
+                                            }
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "description",
+                                                "values": "Python script to compute moderator time profile from Ei",
+                                                "type": "string"
+                                            }
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "date",
+                                                "values": "2023-07-26T15:38:12.462500",
+                                                "type": "string"
+                                            }
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXnote"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "depends_on",
+                                        "values": "/entry/instrument/moderator/transformations/moderator0",
+                                        "type": "string"
+                                    }
+                                }
+                            ],
+                            "attributes": [
+                                {
+                                    "name": "NX_class",
+                                    "dtype": "string",
+                                    "values": "NXmoderator"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "aperture",
+                            "type": "group",
+                            "children": [
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "x_gap",
+                                        "values": 0.094,
+                                        "type": "double"
+                                    }
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "y_gap",
+                                        "values": 0.094,
+                                        "type": "double"
+                                    }
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "mcstas",
+                                        "values": "{\"xmin\": -0.047, \"xmax\": 0.047, \"ymin\": -0.047, \"ymax\": 0.047, \"mcstas_component\": \"Slit\", \"mcstas_order\": 2, \"mcstas_extend\": \"char eniius_data[] =\\n\\\\\\\"{'parameter_function': \\\\\\n{'type':'NXnote', 'value': { \\\\\\n'data': '\\\\\\ndef scale_x_gap(Ei):<nl>\\\\\\n<tb>l = np.sqrt(81.804201263673718 / np.array(ei))<nl>\\\\\\n<tb>if l > 4.5:<nl>\\\\\\n<tb><tb>gain = 11.9644283524285 + 3.3130483907728 * (l - 4.5)<nl>\\\\\\n<tb>else:<nl>\\\\\\n<tb><tb>gain = 1 + np.exp(-2.31186757913804 / l) * (23.2965476737752 + \\\\\\n- 15.1289612048092 * l + 6.11185114079924 * l * l \\\\\\n- 0.863318992430536 * l * l + 0.0439354263500835 * l * l * l)<nl>\\\\\\n<tb>return gain<nl>\\\\\\ndef scale_y_gap(Ei):<nl>\\\\\\n<tb>return scale_x_gap(Ei)<nl>', \\\\\\n'globals': 'np:numpy',\\\\\\n'type': 'text/x-python', \\\\\\n'description': 'Python script to compute aperture parameter from Ei'} \\\\\\n}}\\\\\\\";\\n\"}",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "name": "transformations",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "aperture0",
+                                                "values": 10.3,
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "vector",
+                                                    "dtype": "double",
+                                                    "values": [
+                                                        0.0,
+                                                        0.0,
+                                                        -1.0
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "depends_on",
+                                                    "dtype": "string",
+                                                    "values": "."
+                                                },
+                                                {
+                                                    "name": "transformation_type",
+                                                    "dtype": "string",
+                                                    "values": "translation"
+                                                },
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXtransformations"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "parameter_function",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "data",
+                                                "values": "def scale_x_gap(Ei):\n    l = np.sqrt(81.804201263673718 / np.array(ei))\n    if l > 4.5:\n        gain = 11.9644283524285 + 3.3130483907728 * (l - 4.5)\n    else:\n        gain = 1 + np.exp(-2.31186757913804 / l) * (23.2965476737752 + - 15.1289612048092 * l + 6.11185114079924 * l * l - 0.863318992430536 * l * l + 0.0439354263500835 * l * l * l)\n    return gain\ndef scale_y_gap(Ei):\n    return scale_x_gap(Ei)",
+                                                "type": "string"
+                                            }
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "globals",
+                                                "values": "np:numpy",
+                                                "type": "string"
+                                            }
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "type",
+                                                "values": "text/x-python",
+                                                "type": "string"
+                                            }
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "description",
+                                                "values": "Python script to compute aperture parameter from Ei",
+                                                "type": "string"
+                                            }
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "date",
+                                                "values": "2023-07-26T15:38:12.463380",
+                                                "type": "string"
+                                            }
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXnote"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "depends_on",
+                                        "values": "/entry/instrument/aperture/transformations/aperture0",
+                                        "type": "string"
+                                    }
+                                }
+                            ],
+                            "attributes": [
+                                {
+                                    "name": "NX_class",
+                                    "dtype": "string",
+                                    "values": "NXslit"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "guide1_shutter",
+                            "type": "group",
+                            "children": [
+                                {
+                                    "name": "geometry",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "vertices",
+                                                "values": [
+                                                    [
+                                                        -0.047,
+                                                        -0.047,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        -0.047,
+                                                        0.047,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        0.047,
+                                                        0.047,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        0.047,
+                                                        -0.047,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        -0.042575,
+                                                        -0.042575,
+                                                        1.9373
+                                                    ],
+                                                    [
+                                                        -0.042575,
+                                                        0.042575,
+                                                        1.9373
+                                                    ],
+                                                    [
+                                                        0.042575,
+                                                        0.042575,
+                                                        1.9373
+                                                    ],
+                                                    [
+                                                        0.042575,
+                                                        -0.042575,
+                                                        1.9373
+                                                    ]
+                                                ],
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "winding_order",
+                                                "values": [
+                                                    0,
+                                                    1,
+                                                    2,
+                                                    3,
+                                                    1,
+                                                    5,
+                                                    6,
+                                                    2,
+                                                    5,
+                                                    4,
+                                                    7,
+                                                    6,
+                                                    6,
+                                                    7,
+                                                    3,
+                                                    2,
+                                                    7,
+                                                    4,
+                                                    0,
+                                                    3,
+                                                    1,
+                                                    0,
+                                                    4,
+                                                    5
+                                                ],
+                                                "type": "int64"
+                                            }
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "faces",
+                                                "values": [
+                                                    0,
+                                                    4,
+                                                    8,
+                                                    12,
+                                                    16,
+                                                    20
+                                                ],
+                                                "type": "int64"
+                                            }
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXoff_geometry"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "mcstas",
+                                        "values": "{\"w1\": 0.094, \"h1\": 0.094, \"w2\": 0.08515, \"h2\": 0.08515, \"l\": 1.9373, \"alphax\": 4.38, \"alphay\": 4.38, \"W\": 0.003, \"mx\": 3, \"my\": 3, \"mcstas_component\": \"Guide_channeled\", \"mcstas_order\": 3}",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "name": "transformations",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "guide1_shutter0",
+                                                "values": 10.2454,
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "vector",
+                                                    "dtype": "double",
+                                                    "values": [
+                                                        0.0,
+                                                        0.0,
+                                                        -1.0
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "depends_on",
+                                                    "dtype": "string",
+                                                    "values": "."
+                                                },
+                                                {
+                                                    "name": "transformation_type",
+                                                    "dtype": "string",
+                                                    "values": "translation"
+                                                },
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXtransformations"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "depends_on",
+                                        "values": "/entry/instrument/guide1_shutter/transformations/guide1_shutter0",
+                                        "type": "string"
+                                    }
+                                }
+                            ],
+                            "attributes": [
+                                {
+                                    "name": "NX_class",
+                                    "dtype": "string",
+                                    "values": "NXguide"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "guide2_converging",
+                            "type": "group",
+                            "children": [
+                                {
+                                    "name": "geometry",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "vertices",
+                                                "values": [
+                                                    [
+                                                        -0.04235,
+                                                        -0.04235,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        -0.04235,
+                                                        0.04235,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        0.04235,
+                                                        0.04235,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        0.04235,
+                                                        -0.04235,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        -0.0325,
+                                                        -0.0325,
+                                                        4.3
+                                                    ],
+                                                    [
+                                                        -0.0325,
+                                                        0.0325,
+                                                        4.3
+                                                    ],
+                                                    [
+                                                        0.0325,
+                                                        0.0325,
+                                                        4.3
+                                                    ],
+                                                    [
+                                                        0.0325,
+                                                        -0.0325,
+                                                        4.3
+                                                    ]
+                                                ],
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "winding_order",
+                                                "values": [
+                                                    0,
+                                                    1,
+                                                    2,
+                                                    3,
+                                                    1,
+                                                    5,
+                                                    6,
+                                                    2,
+                                                    5,
+                                                    4,
+                                                    7,
+                                                    6,
+                                                    6,
+                                                    7,
+                                                    3,
+                                                    2,
+                                                    7,
+                                                    4,
+                                                    0,
+                                                    3,
+                                                    1,
+                                                    0,
+                                                    4,
+                                                    5
+                                                ],
+                                                "type": "int64"
+                                            }
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "faces",
+                                                "values": [
+                                                    0,
+                                                    4,
+                                                    8,
+                                                    12,
+                                                    16,
+                                                    20
+                                                ],
+                                                "type": "int64"
+                                            }
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXoff_geometry"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "mcstas",
+                                        "values": "{\"w1\": 0.0847, \"h1\": 0.0847, \"w2\": 0.065, \"h2\": 0.065, \"l\": 4.3, \"alphax\": 4.38, \"alphay\": 4.38, \"W\": 0.003, \"mx\": 3, \"my\": 3, \"mcstas_component\": \"Guide_channeled\", \"mcstas_order\": 4}",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "name": "transformations",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "guide2_converging0",
+                                                "values": 8.209,
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "vector",
+                                                    "dtype": "double",
+                                                    "values": [
+                                                        0.0,
+                                                        0.0,
+                                                        -1.0
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "depends_on",
+                                                    "dtype": "string",
+                                                    "values": "."
+                                                },
+                                                {
+                                                    "name": "transformation_type",
+                                                    "dtype": "string",
+                                                    "values": "translation"
+                                                },
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXtransformations"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "depends_on",
+                                        "values": "/entry/instrument/guide2_converging/transformations/guide2_converging0",
+                                        "type": "string"
+                                    }
+                                }
+                            ],
+                            "attributes": [
+                                {
+                                    "name": "NX_class",
+                                    "dtype": "string",
+                                    "values": "NXguide"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "guide3_betweenchoppers",
+                            "type": "group",
+                            "children": [
+                                {
+                                    "name": "geometry",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "vertices",
+                                                "values": [
+                                                    [
+                                                        -0.03045,
+                                                        -0.03045,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        -0.03045,
+                                                        0.03045,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        0.03045,
+                                                        0.03045,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        0.03045,
+                                                        -0.03045,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        -0.028515,
+                                                        -0.028515,
+                                                        0.847
+                                                    ],
+                                                    [
+                                                        -0.028515,
+                                                        0.028515,
+                                                        0.847
+                                                    ],
+                                                    [
+                                                        0.028515,
+                                                        0.028515,
+                                                        0.847
+                                                    ],
+                                                    [
+                                                        0.028515,
+                                                        -0.028515,
+                                                        0.847
+                                                    ]
+                                                ],
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "winding_order",
+                                                "values": [
+                                                    0,
+                                                    1,
+                                                    2,
+                                                    3,
+                                                    1,
+                                                    5,
+                                                    6,
+                                                    2,
+                                                    5,
+                                                    4,
+                                                    7,
+                                                    6,
+                                                    6,
+                                                    7,
+                                                    3,
+                                                    2,
+                                                    7,
+                                                    4,
+                                                    0,
+                                                    3,
+                                                    1,
+                                                    0,
+                                                    4,
+                                                    5
+                                                ],
+                                                "type": "int64"
+                                            }
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "faces",
+                                                "values": [
+                                                    0,
+                                                    4,
+                                                    8,
+                                                    12,
+                                                    16,
+                                                    20
+                                                ],
+                                                "type": "int64"
+                                            }
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXoff_geometry"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "mcstas",
+                                        "values": "{\"w1\": 0.0609, \"h1\": 0.0609, \"w2\": 0.05703, \"h2\": 0.05703, \"l\": 0.847, \"alphax\": 4.38, \"alphay\": 4.38, \"W\": 0.003, \"mx\": 3, \"my\": 3, \"mcstas_component\": \"Guide_channeled\", \"mcstas_order\": 5}",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "name": "transformations",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "guide3_betweenchoppers0",
+                                                "values": 3.0,
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "vector",
+                                                    "dtype": "double",
+                                                    "values": [
+                                                        0.0,
+                                                        0.0,
+                                                        -1.0
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "depends_on",
+                                                    "dtype": "string",
+                                                    "values": "."
+                                                },
+                                                {
+                                                    "name": "transformation_type",
+                                                    "dtype": "string",
+                                                    "values": "translation"
+                                                },
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXtransformations"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "depends_on",
+                                        "values": "/entry/instrument/guide3_betweenchoppers/transformations/guide3_betweenchoppers0",
+                                        "type": "string"
+                                    }
+                                }
+                            ],
+                            "attributes": [
+                                {
+                                    "name": "NX_class",
+                                    "dtype": "string",
+                                    "values": "NXguide"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "fermi",
+                            "type": "group",
+                            "children": [
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "rotation_speed",
+                                        "values": "-freq",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "radius",
+                                        "values": "pack_radius",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "slit",
+                                        "values": "width",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "r_slit",
+                                        "values": "slit_curv",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "number",
+                                        "values": "num_slits",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "width",
+                                        "values": "None",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "height",
+                                        "values": "0.07",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "mcstas",
+                                        "values": "{\"radius\": \"pack_radius\", \"nu\": \"-freq\", \"w\": \"width\", \"nslit\": \"num_slits\", \"R0\": 0, \"Qc\": 0.02176, \"alpha\": 2.33, \"m\": 0, \"length\": \"length\", \"eff\": 0.95, \"zero_time\": 0, \"yheight\": 0.07, \"curvature\": \"slit_curv\", \"delay\": \"phase_time\", \"mcstas_component\": \"FermiChopper\", \"mcstas_order\": 6}",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "name": "transformations",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "fermi0",
+                                                "values": 1.9000000000000004,
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "vector",
+                                                    "dtype": "double",
+                                                    "values": [
+                                                        0.0,
+                                                        0.0,
+                                                        -1.0
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "depends_on",
+                                                    "dtype": "string",
+                                                    "values": "."
+                                                },
+                                                {
+                                                    "name": "transformation_type",
+                                                    "dtype": "string",
+                                                    "values": "translation"
+                                                },
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXtransformations"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "depends_on",
+                                        "values": "/entry/instrument/fermi/transformations/fermi0",
+                                        "type": "string"
+                                    }
+                                }
+                            ],
+                            "attributes": [
+                                {
+                                    "name": "NX_class",
+                                    "dtype": "string",
+                                    "values": "NXfermi_chopper"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "guide4_final",
+                            "type": "group",
+                            "children": [
+                                {
+                                    "name": "geometry",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "vertices",
+                                                "values": [
+                                                    [
+                                                        -0.02716,
+                                                        -0.02716,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        -0.02716,
+                                                        0.02716,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        0.02716,
+                                                        0.02716,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        0.02716,
+                                                        -0.02716,
+                                                        0.0
+                                                    ],
+                                                    [
+                                                        -0.024415,
+                                                        -0.024415,
+                                                        1.203
+                                                    ],
+                                                    [
+                                                        -0.024415,
+                                                        0.024415,
+                                                        1.203
+                                                    ],
+                                                    [
+                                                        0.024415,
+                                                        0.024415,
+                                                        1.203
+                                                    ],
+                                                    [
+                                                        0.024415,
+                                                        -0.024415,
+                                                        1.203
+                                                    ]
+                                                ],
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "winding_order",
+                                                "values": [
+                                                    0,
+                                                    1,
+                                                    2,
+                                                    3,
+                                                    1,
+                                                    5,
+                                                    6,
+                                                    2,
+                                                    5,
+                                                    4,
+                                                    7,
+                                                    6,
+                                                    6,
+                                                    7,
+                                                    3,
+                                                    2,
+                                                    7,
+                                                    4,
+                                                    0,
+                                                    3,
+                                                    1,
+                                                    0,
+                                                    4,
+                                                    5
+                                                ],
+                                                "type": "int64"
+                                            }
+                                        },
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "faces",
+                                                "values": [
+                                                    0,
+                                                    4,
+                                                    8,
+                                                    12,
+                                                    16,
+                                                    20
+                                                ],
+                                                "type": "int64"
+                                            }
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXoff_geometry"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "mcstas",
+                                        "values": "{\"w1\": 0.05432, \"h1\": 0.05432, \"w2\": 0.04883, \"h2\": 0.04883, \"l\": 1.203, \"alphax\": 4.38, \"alphay\": 4.38, \"W\": 0.003, \"mx\": 3, \"my\": 3, \"mcstas_component\": \"Guide_channeled\", \"mcstas_order\": 7}",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "name": "transformations",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "guide4_final0",
+                                                "values": 1.561,
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "vector",
+                                                    "dtype": "double",
+                                                    "values": [
+                                                        0.0,
+                                                        0.0,
+                                                        -1.0
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "depends_on",
+                                                    "dtype": "string",
+                                                    "values": "."
+                                                },
+                                                {
+                                                    "name": "transformation_type",
+                                                    "dtype": "string",
+                                                    "values": "translation"
+                                                },
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXtransformations"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "depends_on",
+                                        "values": "/entry/instrument/guide4_final/transformations/guide4_final0",
+                                        "type": "string"
+                                    }
+                                }
+                            ],
+                            "attributes": [
+                                {
+                                    "name": "NX_class",
+                                    "dtype": "string",
+                                    "values": "NXguide"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sampleslit1",
+                            "type": "group",
+                            "children": [
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "x_gap",
+                                        "values": 0.048,
+                                        "type": "double"
+                                    }
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "y_gap",
+                                        "values": 0.048,
+                                        "type": "double"
+                                    }
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "mcstas",
+                                        "values": "{\"xmin\": -0.024, \"xmax\": 0.024, \"ymin\": -0.024, \"ymax\": 0.024, \"mcstas_component\": \"Slit\", \"mcstas_order\": 8}",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "name": "transformations",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "sampleslit10",
+                                                "values": 0.3000000000000007,
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "vector",
+                                                    "dtype": "double",
+                                                    "values": [
+                                                        0.0,
+                                                        0.0,
+                                                        -1.0
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "depends_on",
+                                                    "dtype": "string",
+                                                    "values": "."
+                                                },
+                                                {
+                                                    "name": "transformation_type",
+                                                    "dtype": "string",
+                                                    "values": "translation"
+                                                },
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXtransformations"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "depends_on",
+                                        "values": "/entry/instrument/sampleslit1/transformations/sampleslit10",
+                                        "type": "string"
+                                    }
+                                }
+                            ],
+                            "attributes": [
+                                {
+                                    "name": "NX_class",
+                                    "dtype": "string",
+                                    "values": "NXslit"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sample_position",
+                            "type": "group",
+                            "children": [
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "date",
+                                        "values": "2023-07-26T15:38:12.466763",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "mcstas",
+                                        "values": "{\"mcstas_component\": \"Arm\", \"mcstas_order\": 9}",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "name": "transformations",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "sample_position0",
+                                                "values": 0.0,
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "vector",
+                                                    "dtype": "double",
+                                                    "values": [
+                                                        0.0,
+                                                        0.0,
+                                                        0.0
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "depends_on",
+                                                    "dtype": "string",
+                                                    "values": "."
+                                                },
+                                                {
+                                                    "name": "transformation_type",
+                                                    "dtype": "string",
+                                                    "values": "translation"
+                                                },
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXtransformations"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "depends_on",
+                                        "values": "/entry/instrument/sample_position/transformations/sample_position0",
+                                        "type": "string"
+                                    }
+                                }
+                            ],
+                            "attributes": [
+                                {
+                                    "name": "NX_class",
+                                    "dtype": "string",
+                                    "values": "NXnote"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sample",
+                            "type": "group",
+                            "children": [
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "date",
+                                        "values": "2023-07-26T15:38:12.467121",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "mcstas",
+                                        "values": "{\"radius\": 0.04, \"yheight\": 0.04, \"thickness\": 0.005, \"mcstas_component\": \"Incoherent\", \"mcstas_order\": 10}",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "name": "transformations",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "sample0",
+                                                "values": 0.0,
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "vector",
+                                                    "dtype": "double",
+                                                    "values": [
+                                                        0.0,
+                                                        0.0,
+                                                        0.0
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "depends_on",
+                                                    "dtype": "string",
+                                                    "values": "."
+                                                },
+                                                {
+                                                    "name": "transformation_type",
+                                                    "dtype": "string",
+                                                    "values": "translation"
+                                                },
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXtransformations"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "depends_on",
+                                        "values": "/entry/instrument/sample/transformations/sample0",
+                                        "type": "string"
+                                    }
+                                }
+                            ],
+                            "attributes": [
+                                {
+                                    "name": "NX_class",
+                                    "dtype": "string",
+                                    "values": "NXnote"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "det_lowang",
+                            "type": "group",
+                            "children": [
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "mcstas",
+                                        "values": "{\"yheight\": 4, \"radius\": 6, \"options\": \"\\\"banana, auto t bins=200, theta limits[-19.8 19.8] bins=200\\\"\", \"filename\": \"\\\"Detector.dat\\\"\", \"mcstas_component\": \"Monitor_nD\", \"mcstas_order\": 11}",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "name": "transformations",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "det_lowang0",
+                                                "values": 0.0,
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "vector",
+                                                    "dtype": "double",
+                                                    "values": [
+                                                        0.0,
+                                                        0.0,
+                                                        0.0
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "depends_on",
+                                                    "dtype": "string",
+                                                    "values": "."
+                                                },
+                                                {
+                                                    "name": "transformation_type",
+                                                    "dtype": "string",
+                                                    "values": "translation"
+                                                },
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXtransformations"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "depends_on",
+                                        "values": "/entry/instrument/det_lowang/transformations/det_lowang0",
+                                        "type": "string"
+                                    }
+                                }
+                            ],
+                            "attributes": [
+                                {
+                                    "name": "NX_class",
+                                    "dtype": "string",
+                                    "values": "NXdetector"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "det_strip",
+                            "type": "group",
+                            "children": [
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "mcstas",
+                                        "values": "{\"yheight\": 1, \"radius\": 6, \"options\": \"\\\"banana, auto t bins=200, theta limits[21.1 59.7] bins=200\\\"\", \"filename\": \"\\\"Detector.dat\\\"\", \"mcstas_component\": \"Monitor_nD\", \"mcstas_order\": 12}",
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "name": "transformations",
+                                    "type": "group",
+                                    "children": [
+                                        {
+                                            "module": "dataset",
+                                            "config": {
+                                                "name": "det_strip0",
+                                                "values": 0.0,
+                                                "type": "double"
+                                            },
+                                            "attributes": [
+                                                {
+                                                    "name": "vector",
+                                                    "dtype": "double",
+                                                    "values": [
+                                                        0.0,
+                                                        0.0,
+                                                        0.0
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "depends_on",
+                                                    "dtype": "string",
+                                                    "values": "."
+                                                },
+                                                {
+                                                    "name": "transformation_type",
+                                                    "dtype": "string",
+                                                    "values": "translation"
+                                                },
+                                                {
+                                                    "name": "units",
+                                                    "dtype": "string",
+                                                    "values": "m"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "attributes": [
+                                        {
+                                            "name": "NX_class",
+                                            "dtype": "string",
+                                            "values": "NXtransformations"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "module": "dataset",
+                                    "config": {
+                                        "name": "depends_on",
+                                        "values": "/entry/instrument/det_strip/transformations/det_strip0",
+                                        "type": "string"
+                                    }
+                                }
+                            ],
+                            "attributes": [
+                                {
+                                    "name": "NX_class",
+                                    "dtype": "string",
+                                    "values": "NXdetector"
+                                }
+                            ]
+                        },
+                        {
+                            "module": "dataset",
+                            "config": {
+                                "name": "name",
+                                "values": "isis_maps",
+                                "type": "string"
+                            }
+                        }
+                    ],
+                    "attributes": [
+                        {
+                            "name": "NX_class",
+                            "dtype": "string",
+                            "values": "NXinstrument"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "NX_class",
+                    "dtype": "string",
+                    "values": "NXentry"
+                }
+            ]
+        }
+    ]
+}

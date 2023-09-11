@@ -9,7 +9,7 @@ from nexusformat.nexus import *
 def nx2mcstas(nxfile):
     wrapper = eniius.Eniius.from_nxs(nxfile)
     wrapper.name = os.path.basename(nxfile).replace('.', '_')
-    wrapper.to_mcstas().show_components()
+    # wrapper.to_mcstas().show_components()
 
 
 if __name__ == '__main__':

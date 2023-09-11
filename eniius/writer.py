@@ -76,6 +76,7 @@ class Writer:
     """
 
     def __init__(self, nxobj):
+        from nexusformat.nexus import NXsample
         self.rootname = 'entry'
         self.data = None
         self.sample = None
@@ -155,6 +156,7 @@ class Writer:
         return children
 
     def to_nxspe(self, outfile, ei=25, det_file=None):
+        from nexusformat.nexus import NXcollection
         if not outfile.endswith('.nxspe'):
             outfile += '.nxspe'
         with nxopen(outfile, 'w') as root:
@@ -200,6 +202,7 @@ class Writer:
 
     def _parse_det(self, det_file):
         # Assumes ISIS format; cols=(det#, delta, L2, code, theta, phi, W_xyz, a_xyz, det_123)
+        from nexusformat.nexus import NXdetector
         with open(det_file, 'r') as f:
             titles = [next(f) for x in range(3)][2].split()
             if titles[0].startswith('det') and titles[1].startswith('no'):
