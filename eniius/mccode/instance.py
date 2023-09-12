@@ -1,76 +1,9 @@
 from zenlog import log
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Union
-from mccode.instr import Instr, Instance, DependentOrientation, OrientationParts, OrientationPart
-from mccode.common import Expr, unary_expr
+from mccode.instr import Instance
+from mccode.common import Expr
 from nexusformat.nexus import NXfield
-
-def norm_value(v: tuple[Expr, Expr, Expr]):
-    from math import sqrt
-    if v[0].is_zero and v[1].is_zero:
-        return unary_expr(abs, 'abs', v[2])
-    if v[1].is_zero and v[2].is_zero:
-        return unary_expr(abs, 'abs', v[0])
-    if v[0].is_zero and v[2].is_zero:
-        return unary_expr(abs, 'abs', v[1])
-    return unary_expr(sqrt, 'sqrt', v[0] * v[0] + v[1] * v[1] + v[2] * v[2])
-
-
-@dataclass
-class NXOrientation:
-    o: OrientationPart
-
-    def translation(self, dep: str) -> NXfield:
-        from mccode.instr import RotationPart
-        if isinstance(self.o, RotationPart):
-            raise RuntimeError('OrientationPart is a rotation!')
-        pos = self.o.position()
-        norm = norm_value(pos) if any(not x.is_zero for x in pos) else Expr.float(0)
-        vec = [p if norm.is_zero else p / norm for p in pos]
-        return NXfield(norm, vector=vec, depends_on=dep, transformation_type='translation', units='m')
-
-    def rotation(self, dep: str) -> NXfield:
-        from mccode.instr import TranslationPart
-        if isinstance(self.o, TranslationPart):
-            raise RuntimeError('OrientationPart is a translation')
-        axis, angle, angle_unit = self.o.rotation_axis_angle
-        # handle the case where angle is not a constant?
-        return NXfield(angle, vector=axis, depends_on=dep, transformation_type='rotation', units=angle_unit)
-
-    def transformations(self, name: str, dep: str = None) -> list[tuple[str, NXfield]]:
-        if self.o.is_translation and self.o.is_rotation:
-            return [(f'{name}_t', self.translation(dep)), (f'{name}_r', self.rotation(f'{name}_t'))]
-        elif self.o.is_translation:
-            return [(name, self.translation(dep))]
-        elif self.o.is_rotation:
-            return [(name, self.rotation(dep))]
-        else:
-            return []
-
-
-@dataclass
-class NXOrientationChain:
-    oc: OrientationParts
-
-    def transformations(self, name: str) -> list[tuple[str, NXfield]]:
-        nxt = []
-        dep = '.'
-        for index, o in enumerate(self.oc.stack()):
-            nxt.extend(o.transformations(f'{name}_{index}', dep))
-            dep = nxt[-1][0]
-        return nxt
-
-
-@dataclass
-class NXDependentOrientation:
-    do: DependentOrientation
-
-    def transformations(self, name: str) -> dict[str, NXfield]:
-        # collapse all possible chained orientation information
-        orientations = self.do.combine().reduce()
-        # make an ordered list of the requisite NXfield entries
-        nxt = NXOrientationChain(orientations).transformations(name)
-        return {k: v for k, v in nxt}
 
 
 COMPONENT_GROUP_TO_NEXUS = dict(Guide='NXguide', Collimator='NXcollimator')
@@ -123,17 +56,19 @@ class NXInstance:
 
     def __post_init__(self):
         from json import dumps
+        from nexusformat.nexus import NXtransformations
         from eniius.utils import outer_transform_dependency, mccode_component_eniius_data
         self.nx = getattr(self, self.obj.type.name, self.default_translation)()
         self.nx['mcstas'] = dumps({'instance': str(self.obj), 'order': self.index})
-        self.nx['transformations'] = self.transforms
-        most_dependent = outer_transform_dependency(self.transforms)
-        for name, insert in mccode_component_eniius_data(self.obj, only_nx=self.only_nx).items():
-            self.nx[name] = insert
-            if not hasattr(self.nx[name], 'depends_on'):
-                self.nx[name].attrs['depends_on'] = most_dependent
+        if self.transforms:
+            self.nx['transformations'] = NXtransformations(**self.transforms)
             most_dependent = outer_transform_dependency(self.nx['transformations'])
-        self.nx['depends_on'] = f'transformations/{most_dependent}'
+            for name, insert in mccode_component_eniius_data(self.obj, only_nx=self.only_nx).items():
+                self.nx[name] = insert
+                if not hasattr(self.nx[name], 'depends_on'):
+                    self.nx[name].attrs['depends_on'] = most_dependent
+                most_dependent = outer_transform_dependency(self.nx['transformations'])
+            self.nx['depends_on'] = f'transformations/{most_dependent}'
 
     def get_nx_type(self):
         if self.obj.type.name in COMPONENT_TYPE_NAME_TO_NEXUS:
@@ -233,60 +168,4 @@ class NXInstance:
             faces.extend([[j0, j1, j5, j4], [j1, j2, j6, j5], [j2, j3, j7, j6], [j3, j0, j4, j7]])
 
         return NXguide(geometry=NXoff(vertices, faces).to_nexus())
-
-
-@dataclass
-class NXInstr:
-    instrument: Instr
-
-    def to_nx(self):
-        # quick and very dirty:
-        return NXfield(str(self.instrument))
-
-
-@dataclass
-class NXMcCode:
-    instrument: Instr
-    origin_name: str = None
-    indexes: dict[str, int] = field(default_factory=dict)
-    orientations: dict[str, DependentOrientation] = field(default_factory=dict)
-
-    def __post_init__(self):
-        from copy import deepcopy
-        for index, instance in enumerate(self.instrument.components):
-            self.indexes[instance.name] = index
-            self.orientations[instance.name] = deepcopy(instance.orientation)
-        # Attempt to re-center all component dependent orientations on the sample
-        samples = [instance for instance in self.instrument.components if "samples" == instance.type.category]
-        if not samples:
-            log.warn('No "sample" category components in instrument, using ABSOLUTE positions')
-        elif len(samples) > 1:
-            log.warn(f'More than one "sample" category component. Using {samples[0].name} for origin name')
-        if samples:
-            self.origin_name = samples[0].name
-            # find the inverse of the position _and_ rotation of the origin sample
-            origin_offset = samples[0].orientation.inverse()
-            # add this to all components (recentering on the origin)
-            for item in self.orientations.items():
-                item += origin_offset
-
-    def transformations(self, name):
-        return NXDependentOrientation(self.orientations[name]).transformations(name)
-
-    def component(self, name, only_nx=True):
-        """Return a NeXus NXcomponent corresponding to the named McStas component instance"""
-        instance = self.instrument.components[self.indexes[name]]
-        transformations = self.transformations(name)
-        nx = NXInstance(instance, self.indexes[name], transformations, only_nx=only_nx)
-        if nx.nx['transformations'] != transformations:
-            # if the component modifed the transformations group, make sure we don't use our version again
-            del self.orientations[name]
-        return nx
-
-    def instrument(self, only_nx=True):
-        from nexusformat.nexus import NXinstrument
-        nx = NXinstrument()  # this is a NeXus class
-        nx['mcstas'] = NXInstr(self.instrument).to_nx()
-        for name in self.indexes:
-            nx[name] = self.component(name, only_nx=only_nx).nx
 

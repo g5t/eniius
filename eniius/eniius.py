@@ -52,7 +52,7 @@ class Eniius:
     #     mcstas_obj = self.to_mcstas().mc_inst
     #     instr_txt = mcstas_obj.read_instrument_file()
     #     with open(filename, 'w') as f:
-    #         f.write(instr_txt)
+    #         f.write(instr_txt)ouchtou
 
     @property
     def name(self):

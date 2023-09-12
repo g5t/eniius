@@ -3,6 +3,8 @@ import nexusformat.nexus as nexus
 # Only in nexusformat >= 1.0.0
 if not hasattr(nexus, 'NXoff_geometry'):
     NXoff_geometry = nexus.tree._makeclass('NXoff_geometry')
+else:
+    from nexusformat.nexus import NXoff_geometry
 
 
 class NXoff():
