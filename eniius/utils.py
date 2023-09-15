@@ -134,3 +134,60 @@ def mccode_component_eniius_data(comp: Instance, only_nx=True) -> dict:
     except JSONDecodeError as er:
         print(f'Failed to decode {json_str[0]} due to error {er}')
         return {}
+
+
+def ess_flatbuffer_specifier(module: str, config: dict) -> NotNXdict:
+    """ESS uses flat buffers to communicate NeXus file content information, this packages one for eniius processing"""
+    return NotNXdict({'module': module, 'config': config})
+
+
+def ev44_stream_specifier(source: str, topic: str) -> NotNXdict:
+    """Produce an EV44 specification, the (latest) Event flat buffer identifier used by ESS
+
+    Parameters:
+        source: str
+            the name of the event producer, typically matches an instrument detector name
+        topic: str
+            the name of the Kafka stream on which the to-be-read events are published
+    """
+    return ess_flatbuffer_specifier('ev44', {'source': source, 'topic': topic})
+
+
+def link_specifier(name: str, source: str) -> NotNXdict:
+    """
+    Constructs a specifier to insert a NeXus link into an ESS produced NeXus file
+
+    Parameters:
+        name: str
+            the name given to the NeXus link, should be unique at its group level
+        source: str
+            the target of the link, the location in the eventual NeXus file where the source of data resides
+
+    Examples:
+    To produce the link in the following NeXus JSON structure, one would use this function
+        {
+          "name": "data",
+          "type": "group",
+          "attributes": [
+            {
+              "name": "NX_class",
+              "dtype": "string",
+              "values": "NXdata"
+            }
+          ],
+          "children": [
+            {
+              "module": "link",
+              "config": {
+                "name": "detector0_event_data",
+                "source": "/entry/instrument/detector_panel_0/event_data"
+              }
+            },
+          ]
+        }
+    one would use this function to produce an NotNXdict that the eniius writer will insert into the resulting JSON
+    file _without_ converting its contents to NX* objects first.
+
+    >>> link_specifier('detector0_event_data', '/entry/instrument/detector_panel_0/event_data')
+    """
+    return ess_flatbuffer_specifier('link', {'name': name, 'source': source})

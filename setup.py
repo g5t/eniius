@@ -26,13 +26,12 @@ config = dict(
     description='A utility for embedding neutron instrument information using (nx)spe files.',
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
-    packages=['eniius'],
+    packages=['eniius', 'eniius.mccode'],
     install_requires=[
         'numpy',
         'nexusformat>=0.7.8',
         'PyChop @ git+https://github.com/g5t/pychop.git@main',
-        # 'mccode @ git+ssh://git@github.com/g5t/mccode-antlr.git',
-        'mccode @ file:///home/g/Code/mccode-antlr'
+        'mccode @ git+ssh://git@github.com/g5t/mccode-antlr.git >= 0.0.5',
     ],
     extras_require = {},
     url="https://github.com/mducle/eniius",

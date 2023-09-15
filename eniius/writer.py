@@ -54,7 +54,7 @@ def conv_types(obj, only_nx=True):
             # Shoe-horn in an object-defined dictionary:
             tp, vl = None, obj.to_json_dict()
         else:
-            raise RuntimeError(f'unrecognised type {typ} / {dtyp}')
+            raise RuntimeError(f'unrecognised type {typ} / {dtyp} for {repr(obj)}')
     else:
         (tp, vl) = (dtyp.name, obj)
     if tp == 'str':
@@ -62,7 +62,7 @@ def conv_types(obj, only_nx=True):
     elif tp == 'float64':
         tp = 'double'
     elif tp == 'object':
-        raise RuntimeError('Internal logical error')
+        raise RuntimeError(f'Internal logical error attempting to convert {obj}')
     elif tp == 'int':
         tp = 'int64'
     elif tp == 'float':
@@ -133,6 +133,7 @@ class Writer:
                 if absolute_depends_on and 'depends_on' == name and not obj.nxdata.startswith('/'):
                     obj.nxdata = _to_absolute(top_obj.nxpath, obj.nxdata)
                 if obj.nxclass == 'NXfield':
+                    print(f'to_json_dict for NXfield {name=}')
                     typ, val = conv_types(obj.nxdata, only_nx)
                     entry = dict(module='dataset', config=dict(name=name, values=val, type=typ)) if typ else val
                 else:
@@ -141,6 +142,7 @@ class Writer:
                     if len(list(obj)):
                         entry['children'] = self._to_json_dict(obj, only_nx=only_nx, absolute_depends_on=absolute_depends_on)
                 for n, v in obj.attrs.items():
+                    print(f'to_json_dict for attribute of {name=}, named {n=}')
                     typ, val = conv_types(v, only_nx)
                     if absolute_depends_on and n == 'depends_on' and '/' != val[0]:
                         val = _to_absolute(top_obj.nxpath, val, name)

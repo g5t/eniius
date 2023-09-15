@@ -3,7 +3,7 @@ import scipy.io
 import os
 
 from nexusformat.nexus import *
-from pychop.Instruments import Instrument
+from PyChop.Instruments import Instrument
 
 THISFOLDER = os.path.dirname(os.path.realpath(__file__))
 MOD_TABLES = {}

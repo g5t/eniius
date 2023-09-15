@@ -1,4 +1,3 @@
-from .mcstas import NXMcStas, get_instr
 from .writer import Writer
 from .nexus import get_nx_component
 from nexusformat.nexus import nxload, NXfield
@@ -7,7 +6,7 @@ from nexusformat.nexus import nxload, NXfield
 class Eniius:
 
     def __init__(self, nxs_obj=None, detector_dat=None, ei=None):
-        from nexusformat import NXfermi_chopper
+        from nexusformat.nexus import NXfermi_chopper
         self.nxs_obj = nxs_obj
         self.detector_dat = detector_dat
         self.ei = ei
@@ -70,24 +69,26 @@ class Eniius:
             pass
 
     @classmethod
-    def from_mccode(cls, mccode_instr, detector_dat=None, ei=None, only_nx=True):
-        from .mccode import NXMcCode
-        nxs_obj = NXMcCode(mccode_instr).instrument(only_nx=only_nx)
+    def from_mccode(cls, mccode_instr, detector_dat=None, ei=None, only_nx=True, nxlog_root: str =None):
+        from .mccode import NXMcCode, NXInstr
+        if nxlog_root is None:
+            nxlog_root = ''
+        nxs_obj = NXMcCode(NXInstr(mccode_instr, nxlog_root=nxlog_root)).instrument(only_nx=only_nx)
         nxs_obj['name'] = NXfield(value=mccode_instr.name)
         return cls(nxs_obj, detector_dat, ei)
 
-    @classmethod
-    def from_mcstasscript(cls, mss_obj, detector_dat=None, ei=None, only_nx=True):
-        nxs_obj = NXMcStas(mss_obj).NXinstrument(only_nx=only_nx)
-        nxs_obj['name'] = NXfield(value=mss_obj.name)
-        return cls(nxs_obj, detector_dat, ei)
-
-    @classmethod
-    def from_mcstas(cls, infile, detector_dat=None, ei=None, only_nx=True):
-        mcstas_obj = get_instr(infile)
-        nxs_obj = NXMcStas(mcstas_obj).NXinstrument(only_nx=only_nx)
-        nxs_obj['name'] = NXfield(value=mcstas_obj.name)
-        return cls(nxs_obj, detector_dat, ei)
+    # @classmethod
+    # def from_mcstasscript(cls, mss_obj, detector_dat=None, ei=None, only_nx=True):
+    #     nxs_obj = NXMcStas(mss_obj).NXinstrument(only_nx=only_nx)
+    #     nxs_obj['name'] = NXfield(value=mss_obj.name)
+    #     return cls(nxs_obj, detector_dat, ei)
+    #
+    # @classmethod
+    # def from_mcstas(cls, infile, detector_dat=None, ei=None, only_nx=True):
+    #     mcstas_obj = get_instr(infile)
+    #     nxs_obj = NXMcStas(mcstas_obj).NXinstrument(only_nx=only_nx)
+    #     nxs_obj['name'] = NXfield(value=mcstas_obj.name)
+    #     return cls(nxs_obj, detector_dat, ei)
 
     @classmethod
     def from_nxs(cls, infile, detector_dat=None, ei=None):

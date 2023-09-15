@@ -1,6 +1,6 @@
 import warnings
 try:
-    from . import mcstas
+    from . import mccode
     from . import horace
     from . import nexus
     from .eniius import Eniius
@@ -12,5 +12,3 @@ except ModuleNotFoundError as e:
 
 from . import _version
 __version__ = _version.get_versions()['version']
-
-from pychop import Instruments as PyChop

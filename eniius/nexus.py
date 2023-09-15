@@ -7,7 +7,8 @@ import json
 import sys
 import os
 
-from .mcstas import NX2COMP_MAP, AffineRotate, NXoff
+from .nxoff import NXoff
+# from .mcstas import NX2COMP_MAP, AffineRotate
 
 # comps_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'mcstas-comps'))
 
