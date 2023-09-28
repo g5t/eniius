@@ -67,7 +67,7 @@ class NXInstance:
             return None
 
         expr = par.value
-        log.info(f'get parameter {name} which is {par}  and expr {repr(expr)}')
+        # log.info(f'get parameter {name} which is {par}  and expr {repr(expr)}')
         if expr.is_constant:
             return expr.value
 

@@ -69,11 +69,12 @@ class Eniius:
             pass
 
     @classmethod
-    def from_mccode(cls, mccode_instr, detector_dat=None, ei=None, only_nx=True, nxlog_root: str =None):
+    def from_mccode(cls, mccode_instr, origin: str = None,
+                    detector_dat=None, ei=None, only_nx=True, nxlog_root: str = None):
         from .mccode import NXMcCode, NXInstr
         if nxlog_root is None:
             nxlog_root = ''
-        nxs_obj = NXMcCode(NXInstr(mccode_instr, nxlog_root=nxlog_root)).instrument(only_nx=only_nx)
+        nxs_obj = NXMcCode(NXInstr(mccode_instr, nxlog_root=nxlog_root), origin_name=origin).instrument(only_nx=only_nx)
         nxs_obj['name'] = NXfield(value=mccode_instr.name)
         return cls(nxs_obj, detector_dat, ei)
 
