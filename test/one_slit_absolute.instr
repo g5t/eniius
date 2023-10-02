@@ -1,0 +1,6 @@
+DEFINE INSTRUMENT One_Slit_Explicit()
+TRACE
+COMPONENT Origin = Arm() AT (0, 0, 0) ABSOLUTE
+COMPONENT slit = Slit(xmin=-1, xmax=0.2, ymin=0.0, ymax=10) AT (0, 0, 10) RELATIVE Origin
+COMPONENT sample = Incoherent() at (0, 0, 10) RELATIVE slit
+END

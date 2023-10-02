@@ -74,7 +74,8 @@ class Eniius:
         from .mccode import NXMcCode, NXInstr
         if nxlog_root is None:
             nxlog_root = ''
-        nxs_obj = NXMcCode(NXInstr(mccode_instr, nxlog_root=nxlog_root), origin_name=origin).instrument(only_nx=only_nx)
+        nxmccode = NXMcCode(NXInstr(mccode_instr, nxlog_root=nxlog_root), origin_name=origin)
+        nxs_obj = nxmccode.instrument(only_nx=only_nx)
         nxs_obj['name'] = NXfield(value=mccode_instr.name)
         return cls(nxs_obj, detector_dat, ei)
 

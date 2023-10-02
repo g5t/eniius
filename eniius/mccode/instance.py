@@ -140,7 +140,9 @@ class NXInstance:
             y_gap = self.parameter('ymax') - self.parameter('ymin')
             y_zero = self.parameter('ymax') + self.parameter('ymin')
 
-        if not (x_zero.is_zero and y_zero.is_zero) and len(mccode_component_eniius_data(self.obj)) == 0:
+        if isinstance(x_zero, Expr) or isinstance(y_zero, Expr):
+            log.warn(f'{self.obj.name} has a non-constant x or y zero, which requires special handling for NeXus')
+        elif abs(x_zero) or abs(y_zero):
             log.warn(f'{self.obj.name} should be translated by [{x_zero}, {y_zero}, 0] via eniius_data METADATA')
         return self.make_nx(NXslit, x_gap=x_gap, y_gap=y_gap)
 
