@@ -55,13 +55,17 @@ class NXPart:
 @dataclass
 class NXParts:
     instr: NXInstr
-    oc: Parts
+    position: Parts
+    rotation: Parts
 
     def transformations(self, name: str) -> list[tuple[str, NXfield]]:
         nxt = []
         dep = '.'
-        for index, o in enumerate(self.oc.stack()):
-            nxt.extend(NXPart(self.instr, o).transformations(f'{name}_{index}', dep))
+        for index, o in enumerate(self.position.stack()):
+            nxt.extend(NXPart(self.instr, o).transformations(f'{name}_t{index}', dep))
+            dep = nxt[-1][0] if len(nxt) and len(nxt[-1]) else '.'
+        for index, o in enumerate(self.rotation.stack()):
+            nxt.extend(NXPart(self.instr, o).transformations(f'{name}_r{index}', dep))
             dep = nxt[-1][0] if len(nxt) and len(nxt[-1]) else '.'
         return nxt
 
@@ -73,10 +77,8 @@ class NXOrient:
 
     def transformations(self, name: str) -> dict[str, NXfield]:
         # collapse all possible chained orientation information
-        orientations = self.do.combine().reduce()
-        if not orientations:
-            # Absolute positioning (or no positioning)
-            return {}
+        # But keep the rotations and translations separate
+        pos, rot = self.do.position_parts(), self.do.rotation_parts()
         # make an ordered list of the requisite NXfield entries
-        nxt = NXParts(self.instr, orientations).transformations(name)
+        nxt = NXParts(self.instr, pos, rot).transformations(name)
         return {k: v for k, v in nxt}

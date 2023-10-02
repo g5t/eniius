@@ -30,11 +30,11 @@ class NXMcCode:
             log.warn(f'More than one "sample" category component. Using {possible_origins[0].name} for origin name')
         if possible_origins:
             self.origin_name = possible_origins[0].name
-            # find the inverse of the position _and_ rotation of the origin sample
-            origin_offset = possible_origins[0].orientation.inverse()
-            # add this to all components (re-centering on the origin)
+            # find the position _and_ rotation of the origin
+            origin = possible_origins[0].orientation
+            # remove this from all components (re-centering on the origin)
             for name in self.orientations:
-                self.orientations[name] = self.orientations[name] + origin_offset
+                self.orientations[name] = self.orientations[name] - origin
 
     def transformations(self, name):
         from .orientation import NXOrient
