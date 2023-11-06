@@ -22,6 +22,10 @@ class Eniius:
         writer = Writer(self.nxs_obj)
         writer.to_icp(filename, self.detector_dat)
 
+    def to_nexus_structure(self, only_nx=True, absolute_depends_on=False):
+        writer = Writer(self.nxs_obj)
+        return writer.to_nexus_structure(only_nx=only_nx, absolute_depends_on=absolute_depends_on)
+
     def to_json(self, filename, indent=4, only_nx=True, absolute_depends_on=False):
         if not filename.endswith('.json'):
             filename += '.json'

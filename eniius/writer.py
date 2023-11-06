@@ -118,10 +118,14 @@ class Writer:
         """
         if not filename.endswith('.json'):
             filename = f'{filename}.json'
-        json_dict = self._to_json_dict(self.nxobj, only_nx=only_nx, absolute_depends_on=absolute_depends_on)
-        to_write = json.dumps(dict(children=json_dict), indent=indent)
+        to_write = json.dumps(self.to_nexus_structure(only_nx, absolute_depends_on), indent=indent)
         with open(filename, 'w') as file:
             file.write(to_write)
+
+    def to_nexus_structure(self, only_nx=True, absolute_depends_on=False):
+        """Convert a NeXus object to a JSON-compatible 'NeXus-Structure' dictionary as used by the ESS file-writer"""
+        json_dict = self._to_json_dict(self.nxobj, only_nx=only_nx, absolute_depends_on=absolute_depends_on)
+        return dict(children=json_dict)
 
     def _to_json_dict(self, top_obj, only_nx=True, absolute_depends_on=False):
         """Recursive transversal of NXobject tree conversion to JSON-compatible dict"""
