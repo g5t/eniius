@@ -1,6 +1,6 @@
 from zenlog import log
 from dataclasses import dataclass, field
-from mccode.instr import Instr, Orient
+from mccode_antlr.instr import Orient
 from .instr import NXInstr
 
 log.level('error')

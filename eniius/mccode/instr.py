@@ -1,7 +1,7 @@
 from zenlog import log
 from dataclasses import dataclass, field
-from mccode.instr import Instr
-from mccode.common import Expr
+from mccode_antlr.instr import Instr
+from mccode_antlr.common import Expr
 from nexusformat.nexus import NXfield, NXcollection
 
 
@@ -13,10 +13,10 @@ class NXInstr:
 
     def __post_init__(self):
         """Start the C translation to ensure McCode-oddities are handled before any C-code parsing."""
-        from mccode.common import ShapeType, DataType, Value
-        from mccode.translators.target import MCSTAS_GENERATOR
-        from mccode.translators.c import CTargetVisitor, CDeclaration
-        from mccode.translators.c_listener import extract_c_declared_expressions, evaluate_c_defined_expressions
+        from mccode_antlr.common import ShapeType, DataType, Value
+        from mccode_antlr.translators.target import MCSTAS_GENERATOR
+        from mccode_antlr.translators.c import CTargetVisitor, CDeclaration
+        from mccode_antlr.translators.c_listener import evaluate_c_defined_expressions
         config = dict(default_main=True, enable_trace=False, portable=False, include_runtime=True,
                       embed_instrument_file=False, verbose=False, output=None)
         translator = CTargetVisitor(self.instr, generate=MCSTAS_GENERATOR, config=config)

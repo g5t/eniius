@@ -31,7 +31,7 @@ config = dict(
         'numpy',
         'nexusformat>=0.7.8',
         'PyChop @ git+https://github.com/g5t/pychop.git@main',
-        'mccode @ git+ssh://git@github.com/g5t/mccode-antlr.git',
+        'mccode-antlr',
     ],
     extras_require = {},
     url="https://github.com/mducle/eniius",

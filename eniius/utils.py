@@ -1,4 +1,4 @@
-from mccode.instr import Instance
+from mccode_antlr.instr import Instance
 
 
 class NotNXdict:

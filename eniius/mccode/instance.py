@@ -1,8 +1,8 @@
 from zenlog import log
 from dataclasses import dataclass
 from typing import Union
-from mccode.instr import Instance, Instr
-from mccode.common import Expr
+from mccode_antlr.instr import Instance
+from mccode_antlr.common import Expr
 from nexusformat.nexus import NXfield
 from .instr import NXInstr
 
@@ -126,7 +126,6 @@ class NXInstance:
     def Slit(self):
         """The Slit component _must_ define (xmin, xmax) _or_ xwidth, and similarly the y-named parameters"""
         from nexusformat.nexus import NXslit
-        from eniius.utils import mccode_component_eniius_data
         if self.obj.defines_parameter('xwidth'):
             x_gap = self.parameter('xwidth')
             x_zero = Expr.float(0)

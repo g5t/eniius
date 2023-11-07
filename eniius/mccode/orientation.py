@@ -1,6 +1,6 @@
 from zenlog import log
 from dataclasses import dataclass
-from mccode.instr import Orient, Parts, Part
+from mccode_antlr.instr import Orient, Parts, Part
 from nexusformat.nexus import NXfield
 from .instr import NXInstr
 
@@ -16,7 +16,7 @@ class NXPart:
         return self.instr.make_nx(nx_class, *args, **kwargs)
 
     def translation(self, dep: str) -> NXfield:
-        from mccode.instr import RotationPart
+        from mccode_antlr.instr import RotationPart
         if isinstance(self.o, RotationPart):
             raise RuntimeError('Part is a rotation!')
         pos = self.o.position()
@@ -25,7 +25,7 @@ class NXPart:
         return self.make_nx(NXfield, norm, vector=vec, depends_on=dep, transformation_type='translation', units='m')
 
     def rotation(self, dep: str) -> NXfield:
-        from mccode.instr import TranslationPart
+        from mccode_antlr.instr import TranslationPart
         if isinstance(self.o, TranslationPart):
             raise RuntimeError('Part is a translation')
         try:
