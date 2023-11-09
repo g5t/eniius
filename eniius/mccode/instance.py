@@ -35,13 +35,27 @@ COMPONENT_TYPE_NAME_TO_NEXUS = dict(
 # The second element is a mapping of NeXus component parameters to McStas parameters
 # The third element is a mapping of NeXus component parameters to McStas position paramters
 NEXUS_TO_COMPONENT = dict(
-    NXaperture=['Slit', {'x_gap': 'xwidth', 'y_gap': 'yheight'}, ],
-    NXcollimator=['Collimator_linear', {'divergence_x': 'divergence', 'divergence_y': 'divergenceV'}, ],
     NXdetector=['Monitor_nD', {}, ],
-    NXdisk_chopper=['DiskChopper', {'slits': 'nslit', 'rotation_speed': 'nu', 'radius': 'radius', 'slit_angle': 'theta_0', 'slit_height': 'yheight', 'phase': 'phase'}, ],
-    NXfermi_chopper=['FermiChopper', {'rotation_speed': 'nu', 'radius': 'radius', 'slit': 'w', 'r_slit': 'curvature', 'number': 'nslit', 'width': 'xwidth', 'height': 'yheight'}, {'distance': 'set_AT'}, ],
-    NXguide=['Guide', {'m_value': 'm'}, ],
-    NXslit=['Slit', {'x_gap': 'xwidth', 'y_gap': 'yheight'}, ],
+    NXdisk_chopper=['DiskChopper',
+                    {'slits': 'nslit',
+                     'rotation_speed': 'nu',
+                     'radius': 'radius',
+                     'slit_angle': 'theta_0',
+                     'slit_height': 'yheight',
+                     'phase': 'phase'},
+                    ],
+    NXfermi_chopper=['FermiChopper',
+                     {'rotation_speed': 'nu',
+                      'radius': 'radius',
+                      'slit': 'w',
+                      'r_slit': 'curvature',
+                      'number': 'nslit',
+                      'width': 'xwidth',
+                      'height': 'yheight'
+                      },
+                     {'distance': 'set_AT'
+                      },
+                     ],
     NXsample=['Incoherent', {}, ],
     NXmoderator=['Moderator', {}, {'distance': 'set_AT'}, ]
 )
@@ -123,92 +137,44 @@ class NXInstance:
         nx_2_mc = NEXUS_TO_COMPONENT.get(nx_type, ({}, {}))[1]
         return getattr(nexus, nx_type)(**{n: self.nx_parameter(m) for n, m in nx_2_mc.items()})
 
-    def Slit(self):
-        """The Slit component _must_ define (xmin, xmax) _or_ xwidth, and similarly the y-named parameters"""
-        from nexusformat.nexus import NXslit
-        if self.obj.defines_parameter('xwidth'):
-            x_gap = self.parameter('xwidth')
-            x_zero = Expr.float(0)
-        else:
-            x_gap = self.parameter('xmax') - self.parameter('xmin')
-            x_zero = self.parameter('xmax') + self.parameter('xmin')
-        if self.obj.defines_parameter('ywidth'):
-            y_gap = self.parameter('ywidth')
-            y_zero = Expr.float(0)
-        else:
-            y_gap = self.parameter('ymax') - self.parameter('ymin')
-            y_zero = self.parameter('ymax') + self.parameter('ymin')
 
-        if isinstance(x_zero, Expr) or isinstance(y_zero, Expr):
-            log.warn(f'{self.obj.name} has a non-constant x or y zero, which requires special handling for NeXus')
-        elif abs(x_zero) or abs(y_zero):
-            log.warn(f'{self.obj.name} should be translated by [{x_zero}, {y_zero}, 0] via eniius_data METADATA')
-        return self.make_nx(NXslit, x_gap=x_gap, y_gap=y_gap)
+def register_translator(name, translator):
+    """After the normal __init__ method instantiates a NXInstance object, the __post_init__ method is used
+    to translate its held mccode_antlr.instr.Instance object into a NeXus object. This is done by calling
+    the translator function registered for the component type name.
+    It is not feasible to register a translator for every possible component type, so this function can be used
+    to add translators for specific component types that you, the user, need for your instrument.
 
-    def Guide(self):
-        from nexusformat.nexus import NXguide
-        from eniius.nxoff import NXoff
-        off_pars = {k: self.nx_parameter(k) for k in ('l', 'w1', 'h1', 'w2', 'h2')}
-        for k in ('w', 'h'):
-            off_pars[f'{k}2'] = off_pars[f'{k}1'] if off_pars[f'{k}2'] == 0 else off_pars[f'{k}2']
-        return self.make_nx(NXguide, m_value=self.parameter('m'), geometry=NXoff.from_wedge(**off_pars).to_nexus())
+    Your translator must be a function with one input, the NXInstance object, and one output, a NeXus object.
+    After you have defined your translator function, you can register it with this function.
 
-    Guide_channeled = Guide
-    Guide_gravity = Guide
-    Guide_simple = Guide
-    Guide_wavy = Guide
+    >>> import eniius
+    >>>
+    >>> def my_translator(instance):
+    >>>     from nexusformat.nexus import NXguide
+    >>>     return instance.make_nx(NXguide, m_value=instance.parameter('m'))
+    >>>
+    >>> eniius.mccode.instance.register_translator('MyComponentType', my_translator)
+    """
+    setattr(NXInstance, name, translator)
 
-    def Collimator_linear(self):
-        from nexusformat.nexus import NXcollimator
-        from eniius.nxoff import NXoff
-        pars = {k: self.nx_parameter(v) for k, v in (('l', 'length'), ('w1', 'xwidth'), ('h1', 'yheight'))}
-        return self.make_nx(NXcollimator, divergence_x=self.parameter('divergence'),
-                            divergence_y=self.parameter('divergenceV'),
-                            geometry=NXoff.from_wedge(**pars).to_nexus())
 
-    def DiskChopper(self):
-        from nexusformat.nexus import NXdisk_chopper
-        mpars = {k: self.parameter(k) for k in ('nslit', 'nu', 'radius', 'theta_0', 'phase', 'yheight')}
-        pars = {'slits': mpars['nslit'],
-                'rotation_speed': self.make_nx(NXfield, mpars['nu'], units='Hz'),
-                'radius': self.make_nx(NXfield, mpars['radius'], units='m'),
-                'slit_angle': self.make_nx(NXfield, mpars['theta_0'], units='degrees'),
-                'phase': self.make_nx(NXfield, mpars['phase'], units='degrees'),
-                'slit_height': self.make_nx(NXfield, mpars['yheight'] if mpars['yheight'] else mpars['radius'], units='m')}
-        nslit, delta = mpars['nslit'], mpars['theta_0'] / 2.0
-        slit_edges = [y * 360.0 / nslit + x for y in range(int(nslit)) for x in (-delta, delta)]
-        nx_slit_edges = [self.expr2nx(se) for se in slit_edges]
-        return self.make_nx(NXdisk_chopper, slit_edges=NXfield(nx_slit_edges, units='degrees'), **pars)
+def register_default_translators():
+    from .comp import (slit_translator, guide_translator, collimator_linear_translator,
+                       diskchopper_translator, elliptic_guide_gravity_translator,
+                       monitor_translator)
+    for name, translator in (('Slit', slit_translator),
+                             ('Guide', guide_translator),
+                             ('Guide_channeled', guide_translator),
+                             ('Guide_gravity', guide_translator),
+                             ('Guide_simple', guide_translator),
+                             ('Guide_wavy', guide_translator),
+                             ('Collimator_linear', collimator_linear_translator),
+                             ('DiskChopper', diskchopper_translator),
+                             ('Elliptic_guide_gravity', elliptic_guide_gravity_translator),
+                             ('TOF_monitor', monitor_translator),
+                             ('PSD_monitor', monitor_translator),):
+        register_translator(name, translator)
 
-    def Elliptic_guide_gravity(self):
-        from nexusformat.nexus import NXguide
-        from numpy import arange, sqrt
-        from eniius.nxoff import NXoff
-        if not '"mid"' == self.obj.get_parameter('dimensionsAt'):
-            log.warn('Only midpoint geometry supported by Elliptic_guide_gravity translator')
-            log.info(f'The current guide has {self.obj.get_parameter("dimensionsAt")} specified')
 
-        def ellipse_width(minor, distance, at):
-            major = sqrt((distance / 2) ** 2 + minor ** 2)
-            return 0 if abs(at) > major else minor * sqrt(1 - (at / major) ** 2)
-
-        pars = dict(xw='xwidth', xi='linxw', xo='loutxw', yw='yheight', yi='linyh', yo='loutyh', l='l')
-        p = {k: self.parameter(v) for k, v in pars.items()}
-        n = 10
-        rings = arange(n + 1) / n
-        faces, vertices = [], []
-        for x in rings:
-            w = ellipse_width(p['xw'] / 2, p['xi'] + p['l'] + p['xo'], p['xi'] / 2 + (x - 0.5) * p['l'] - p['xo'] / 2)
-            h = ellipse_width(p['yw'] / 2, p['yi'] + p['l'] + p['yo'], p['yi'] / 2 + (x - 0.5) * p['l'] - p['yo'] / 2)
-            z = x * p['l']
-            vertices.extend([[-w, -h, z], [-w, h, z], [w, h, z], [w, -h, z]])
-
-        for i in range(n):
-            j0, j1, j2, j3, j4, j5, j6, j7 = [4 * i + k for k in range(8)]
-            faces.extend([[j0, j1, j5, j4], [j1, j2, j6, j5], [j2, j3, j7, j6], [j3, j0, j4, j7]])
-
-        nx_vertices = [[self.expr2nx(expr) for expr in vector] for vector in vertices]
-        nx_faces = [[self.expr2nx(expr) for expr in face] for face in faces]
-
-        return NXguide(geometry=NXoff(nx_vertices, nx_faces).to_nexus())
-
+register_default_translators()
